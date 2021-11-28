@@ -80,6 +80,19 @@ public class UserService {
         }
     }
 
+    // 회원 reported 횟수 추가
+    public void modifyReportedCnt(PatchUserReq patchUserReq) throws BaseException{
+        try{
+            int result = userDao.reportUserCnt(patchUserReq);
+            if(result == 0){//업데이트 실패기
+                throw new BaseException(MODIFY_FAIL_REPORT);
+            }
+        }
+        catch (Exception exception){
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     //해당 email을 갖는 User의 정보 삭제
     public int deleteUserByEmail(String userEmail) throws BaseException{
         try {

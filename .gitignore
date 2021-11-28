@@ -2,3 +2,7 @@
 /당근마켓사진들
 /DB설계 실습
 *.zip
+JWT Token 만들기/
+node_modules/
+package.json
+yarn.lock

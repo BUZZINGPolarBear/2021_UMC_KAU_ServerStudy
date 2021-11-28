@@ -242,6 +242,31 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     *  유저 신고 Cnt 추가
+     *  [Post] /users/:userIdx
+     */
+    @ResponseBody
+    @PatchMapping("/{userIdx}")
+    public BaseResponse<String> reportUserCount(@PathVariable("userIdx") int userIdx, @RequestBody User user) {
+        try {
+            //jwt에서 idx 추출.
+            int userIdxByJwt = jwtService.getUserIdx();
+            //userIdx와 접근한 유저가 같은지 확인
+            if(userIdx != userIdxByJwt){
+                return new BaseResponse<>(INVALID_USER_JWT);
+            }
+            //같다면 유저 신고횟수 추가
+            PatchUserReq patchUserReq = new PatchUserReq(userIdx, user.getNickname());
+            userService.modifyReportedCnt(patchUserReq);
+
+            String result = "회원정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
 
 
